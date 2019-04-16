@@ -2,12 +2,11 @@ from numba.decorators import jit
 import numpy as np
     
 @jit
-def distances(X, v, alpha, N, P, k):
-    dists = np.zeros((N, P))
+def distances(X, v, alpha, N, k):
+    dists = np.zeros((N, k))
     for i in range(N):
-        for p in range(P):
-            for j in range(k):    
-                dists[i, j] += (X[i, p] - v[j, p]) * (X[i, p] - v[j, p]) * alpha[p]
+        for j in range(k):
+            dists[i, j] = np.multiply(np.multiply((X[i, :] - v[j, :]), (X[i, :] - v[j, :])), alpha).sum()
     return dists
 
 @jit
